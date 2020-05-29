@@ -14,6 +14,8 @@ abstract class Mutator<T> {
 
 extension MutatorContextExtensions on BuildContext {
   T listen<T>() => Provider.of<ValueNotifier<T>>(this).value;
+  R property<T, R>(R Function(T value) selector) =>
+      select<ValueNotifier<T>, R>((notifier) => selector(notifier.value));
   T value<T>() => Provider.of<ValueNotifier<T>>(this, listen: false).value;
   Dispatcher<T> dispatcher<T>(BuildContext context) => Dispatcher<T>(context);
 }
