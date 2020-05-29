@@ -8,6 +8,10 @@ mixin _CounterMutator {
       return self.add(oldValue, mutation.value);
     }
 
+    if (mutation is ThunkSucceededMutation<Counter>) {
+      return mutation.result;
+    }
+
     return oldValue;
   }
 }
@@ -27,10 +31,31 @@ class AddCounterMutation extends Mutation<Counter> {
   String get name => 'add';
 }
 
+class AddFromServerCounterMutation extends ThunkMutation<Counter> {
+  const AddFromServerCounterMutation();
+
+  @override
+  Map<String, Object> get arguments => {};
+
+  @override
+  String get name => 'addFromServer';
+
+  @override
+  Future<Thunk<Counter>> execute(
+      Counter initialValue, Mutator<Counter> mutator) {
+    final self = this as CounterMutator;
+    return self.addFromServer(initialValue);
+  }
+}
+
 extension CounterDispatcherExtensions on Dispatcher<Counter> {
   void add({@required int value}) => dispatch(
         AddCounterMutation(
           value: value,
         ),
+      );
+
+  void addFromServer() => dispatch(
+        AddFromServerCounterMutation(),
       );
 }
