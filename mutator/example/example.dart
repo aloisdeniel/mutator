@@ -8,7 +8,7 @@ class Example extends StatelessWidget {
   Widget build(BuildContext context) {
     return Mutated(
       initialValue: Counter(0),
-      mutator: CounterMutator(),
+      mutator: LoggingMutator(CounterMutator()),
       builder: (context) => Scaffold(
         body: Text('Current count: ${context.listen<Counter>().value}'),
         floatingActionButton: FloatingActionButton(

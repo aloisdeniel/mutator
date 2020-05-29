@@ -17,6 +17,14 @@ class AddCounterMutation extends Mutation<Counter> {
   const AddCounterMutation({
     @required this.value,
   });
+
+  @override
+  Map<String, Object> get arguments => {
+        'value': value,
+      };
+
+  @override
+  String get name => 'add';
 }
 
 extension CounterDispatcherExtensions on Dispatcher<Counter> {
